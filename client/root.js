@@ -50,6 +50,6 @@ function setupLoggedIn() {
 			redirectPath += `?${ context.querystring }`;
 		}
 
-		page.redirect( redirectPath );
+		page( redirectPath );
 	} );
 }
