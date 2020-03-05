@@ -51,8 +51,10 @@ const router = () => {
 			makeLayout,
 			clientRender
 		);
+
 		page(
-			'/site/:site/backups/backups/download/:downloadId',
+			'/backups/:site/download/:downloadId',
+			siteSelection,
 			setupSidebar,
 			backupDownload,
 			makeLayout,
@@ -85,7 +87,14 @@ const router = () => {
 		page( '/scan/:site', siteSelection, setupSidebar, scan, makeLayout, clientRender );
 
 		if ( config.isEnabled( 'jetpack-cloud/scan-history' ) ) {
-			page( '/scan/:site/history', siteSelection, setupSidebar, scanHistory, makeLayout, clientRender );
+			page(
+				'/scan/:site/history',
+				siteSelection,
+				setupSidebar,
+				scanHistory,
+				makeLayout,
+				clientRender
+			);
 		}
 	}
 
