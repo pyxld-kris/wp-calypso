@@ -52,8 +52,8 @@ const DomainPicker: FunctionComponent< Props > = ( {
 	onDomainSelect,
 	queryParameters,
 } ) => {
-	const { __: NO__ } = useI18n();
-	const label = NO__( 'Search for a domain' );
+	const { __ } = useI18n();
+	const label = __( 'Search for a domain' );
 
 	const [ domainSearch, setDomainSearch ] = useState( '' );
 
@@ -83,9 +83,7 @@ const DomainPicker: FunctionComponent< Props > = ( {
 		<Panel className="domain-picker">
 			<PanelBody>
 				<PanelRow className="domain-picker__panel-row">
-					<div className="domain-picker__choose-domain-header">
-						{ NO__( 'Choose a new domain' ) }
-					</div>
+					<div className="domain-picker__choose-domain-header">{ __( 'Choose a new domain' ) }</div>
 					<TextControl
 						hideLabelFromVision
 						label={ label }
@@ -98,7 +96,7 @@ const DomainPicker: FunctionComponent< Props > = ( {
 				<HorizontalRule className="domain-picker__divider" />
 
 				<PanelRow className="domain-picker__panel-row">
-					<div className="domain-picker__recommended-header">{ NO__( 'Recommended' ) }</div>
+					<div className="domain-picker__recommended-header">{ __( 'Recommended' ) }</div>
 					{ suggestions?.length
 						? suggestions.map( suggestion => (
 								<Button
@@ -110,7 +108,7 @@ const DomainPicker: FunctionComponent< Props > = ( {
 										{ suggestion.domain_name }
 									</span>
 									{ suggestion.is_free ? (
-										<span className="domain-picker__suggestion-action">{ NO__( 'Select' ) }</span>
+										<span className="domain-picker__suggestion-action">{ __( 'Select' ) }</span>
 									) : (
 										<a
 											className="domain-picker__suggestion-action"
@@ -118,7 +116,7 @@ const DomainPicker: FunctionComponent< Props > = ( {
 											target="_blank"
 											rel="noopener noreferrer"
 										>
-											{ NO__( 'Upgrade' ) }
+											{ __( 'Upgrade' ) }
 										</a>
 									) }
 								</Button>
@@ -129,14 +127,14 @@ const DomainPicker: FunctionComponent< Props > = ( {
 										example.wordpress.com
 									</span>
 									<span className="domain-picker__suggestion-action placeholder">
-										{ NO__( 'Select' ) }
+										{ __( 'Select' ) }
 									</span>
 								</Button>
 						  ) ) }
 				</PanelRow>
 
 				<PanelRow className="domain-picker__has-domain domain-picker__panel-row">
-					<Button onClick={ handleHasDomain }>{ NO__( 'I already have a domain' ) }</Button>
+					<Button onClick={ handleHasDomain }>{ __( 'I already have a domain' ) }</Button>
 				</PanelRow>
 			</PanelBody>
 		</Panel>

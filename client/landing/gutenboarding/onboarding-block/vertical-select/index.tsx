@@ -32,15 +32,15 @@ const VerticalSelect: FunctionComponent< StepProps > = ( {
 	isActive,
 	onExpand,
 } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	const popular = [
-		NO__( 'Travel Agency' ),
-		NO__( 'Digital Marketing' ),
-		NO__( 'Cameras & Photography' ),
-		NO__( 'Website Designer' ),
-		NO__( 'Restaurant' ),
-		NO__( 'Fashion Designer' ),
-		NO__( 'Real Estate Agent' ),
+		__( 'Travel Agency' ),
+		__( 'Digital Marketing' ),
+		__( 'Cameras & Photography' ),
+		__( 'Website Designer' ),
+		__( 'Restaurant' ),
+		__( 'Fashion Designer' ),
+		__( 'Real Estate Agent' ),
 	];
 
 	/**
@@ -87,7 +87,7 @@ const VerticalSelect: FunctionComponent< StepProps > = ( {
 	const loadingMessage = [
 		{
 			label: '',
-			category: NO__( 'Loading, please wait…' ),
+			category: __( 'Loading, please wait…' ),
 		},
 	];
 
@@ -96,7 +96,7 @@ const VerticalSelect: FunctionComponent< StepProps > = ( {
 	if ( ! normalizedInputValue ) {
 		suggestions = verticals
 			.filter( vertical => popular.includes( vertical.label ) )
-			.map( vertical => ( { ...vertical, category: NO__( 'Popular' ) } ) );
+			.map( vertical => ( { ...vertical, category: __( 'Popular' ) } ) );
 		resetSiteVertical();
 	} else {
 		suggestions = verticals.filter( vertical =>
@@ -128,8 +128,8 @@ const VerticalSelect: FunctionComponent< StepProps > = ( {
 		onSelect();
 	};
 
-	const label = NO__( 'My site is about' );
-	const displayValue = siteVertical?.label ?? NO__( 'enter a topic' );
+	const label = __( 'My site is about' );
+	const displayValue = siteVertical?.label ?? __( 'enter a topic' );
 
 	// Focus the input when we change to active
 	const inputRef = createRef< HTMLInputElement >();
@@ -150,7 +150,7 @@ const VerticalSelect: FunctionComponent< StepProps > = ( {
 				<input
 					ref={ inputRef }
 					className={ inputClass }
-					placeholder={ NO__( 'enter a topic' ) }
+					placeholder={ __( 'enter a topic' ) }
 					onChange={ handleSuggestionChangeEvent }
 					onBlur={ handleBlur }
 					onKeyDown={ handleSuggestionKeyDown }

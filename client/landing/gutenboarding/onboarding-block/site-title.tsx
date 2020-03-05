@@ -20,7 +20,7 @@ const SiteTitle: FunctionComponent< StepProps > = ( {
 	isActive,
 	onExpand,
 } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	const { siteTitle } = useSelect( select => select( STORE_KEY ).getState() );
 	const { setSiteTitle } = useDispatch( STORE_KEY );
 	const history = useHistory();
@@ -29,8 +29,8 @@ const SiteTitle: FunctionComponent< StepProps > = ( {
 	const handleChange = ( e: React.ChangeEvent< HTMLInputElement > ) =>
 		setSiteTitle( e.target.value.trim().length ? e.target.value : '' );
 
-	const label = NO__( "It's called" );
-	const value = siteTitle.length ? siteTitle : NO__( 'enter a title' );
+	const label = __( "It's called" );
+	const value = siteTitle.length ? siteTitle : __( 'enter a title' );
 
 	// Focus the input when we change to active
 	const inputRef = createRef< HTMLInputElement >();
@@ -52,7 +52,7 @@ const SiteTitle: FunctionComponent< StepProps > = ( {
 				<input
 					ref={ inputRef }
 					className={ inputClass }
-					placeholder={ NO__( 'enter a title' ) }
+					placeholder={ __( 'enter a title' ) }
 					onChange={ handleChange }
 					onBlur={ onSelect }
 					value={ siteTitle }

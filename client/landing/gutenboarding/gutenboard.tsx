@@ -35,7 +35,7 @@ interface BlockListProps extends OriginalBlockList.Props {
 const BlockList = ( props: BlockListProps ) => <OriginalBlockList { ...props } />;
 
 export function Gutenboard() {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 
 	// @TODO: This is currently needed in addition to the routing (inside the Onboarding Block)
 	// for the 'Back' and 'Next' buttons in the header. If we remove those (and move navigation
@@ -82,7 +82,7 @@ export function Gutenboard() {
 							<div
 								className="edit-post-visual-editor editor-styles-wrapper"
 								role="region"
-								aria-label={ NO__( 'Onboarding screen content' ) }
+								aria-label={ __( 'Onboarding screen content' ) }
 								tabIndex={ -1 }
 							>
 								<BlockList

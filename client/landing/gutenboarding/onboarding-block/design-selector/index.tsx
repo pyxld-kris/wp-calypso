@@ -30,7 +30,7 @@ interface Props {
 }
 
 const DesignSelector: FunctionComponent< Props > = ( { showPageSelector = false } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	const { selectedDesign, siteVertical } = useSelect( select =>
 		select( ONBOARD_STORE ).getState()
 	);
@@ -102,10 +102,10 @@ const DesignSelector: FunctionComponent< Props > = ( { showPageSelector = false 
 				ref={ headingContainer }
 			>
 				<h1 className="design-selector__title">
-					{ NO__( 'Choose a starting design for your site' ) }
+					{ __( 'Choose a starting design for your site' ) }
 				</h1>
 				<h2 className="design-selector__subtitle">
-					{ NO__( "You'll be able to customize your new site in hundreds of ways." ) }
+					{ __( "You'll be able to customize your new site in hundreds of ways." ) }
 				</h2>
 			</div>
 			<div

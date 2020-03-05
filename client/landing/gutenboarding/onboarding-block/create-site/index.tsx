@@ -11,7 +11,7 @@ import './style.scss';
 
 /* eslint-disable wpcalypso/jsx-classname-namespace */
 const CreateSite: FunctionComponent< {} > = () => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	return (
 		<div className="create-site__background">
 			<div className="create-site__layout">
@@ -35,7 +35,7 @@ const CreateSite: FunctionComponent< {} > = () => {
 				</div>
 				<div className="create-site__content">
 					<div className="create-site__placeholder create-site__placeholder-title">Placeholder</div>
-					<div className="create-site__text">{ NO__( 'Your site is being created...' ) }</div>
+					<div className="create-site__text">{ __( 'Your site is being created…' ) }</div>
 				</div>
 			</div>
 		</div>

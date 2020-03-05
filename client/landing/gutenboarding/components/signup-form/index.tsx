@@ -32,7 +32,7 @@ interface Props {
 }
 
 const SignupForm = ( { onRequestClose }: Props ) => {
-	const { __: NO__, _x: NO_x } = useI18n();
+	const { __, _x } = useI18n();
 	const [ emailVal, setEmailVal ] = useState( '' );
 	const { createAccount } = useDispatch( USER_STORE );
 	const isFetchingNewUser = useSelect( select => select( USER_STORE ).isFetchingNewUser() );
@@ -67,7 +67,7 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 	};
 
 	const tos = __experimentalCreateInterpolateElement(
-		NO__( 'By creating an account you agree to our <link_to_tos>Terms of Service</link_to_tos>.' ),
+		__( 'By creating an account you agree to our <link_to_tos>Terms of Service</link_to_tos>.' ),
 		{
 			link_to_tos: <ExternalLink href="https://wordpress.com/tos/" />,
 		}
@@ -79,11 +79,11 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 			case 'already_taken':
 			case 'already_active':
 			case 'email_exists':
-				errorMessage = NO__( 'An account with this email address already exists.' );
+				errorMessage = __( 'An account with this email address already exists.' );
 				break;
 
 			default:
-				errorMessage = NO__(
+				errorMessage = __(
 					'Sorry, something went wrong when trying to create your account. Please try again.'
 				);
 				break;
@@ -93,19 +93,19 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 	return (
 		<Modal
 			className="signup-form"
-			title={ NO__( 'Sign up to save your changes' ) }
+			title={ __( 'Sign up to save your changes' ) }
 			onRequestClose={ onRequestClose }
 			focusOnMount={ false }
 			isDismissible={ ! isFetchingNewUser }
 		>
 			<form onSubmit={ handleSignUp }>
 				<TextControl
-					label={ NO__( 'Your Email Address' ) }
+					label={ __( 'Your Email Address' ) }
 					value={ emailVal }
 					disabled={ isFetchingNewUser }
 					type="email"
 					onChange={ setEmailVal }
-					placeholder={ NO_x(
+					placeholder={ _x(
 						'E.g., yourname@email.com',
 						"An example of a person's email, use something appropriate for the locale"
 					) }
@@ -127,7 +127,7 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 						isBusy={ isFetchingNewUser }
 						isPrimary
 					>
-						{ NO__( 'Create your account' ) }
+						{ __( 'Create your account' ) }
 					</Button>
 				</div>
 			</form>

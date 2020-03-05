@@ -17,7 +17,7 @@ import './style.scss';
 import Link from '../components/link';
 
 const AcquireIntent: FunctionComponent = () => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	const { siteVertical, siteTitle } = useSelect( select => select( STORE_KEY ).getState() );
 	const makePath = usePath();
 	return (
@@ -26,7 +26,7 @@ const AcquireIntent: FunctionComponent = () => {
 				<h2 className="onboarding-block__questions-heading">
 					{ ! siteVertical &&
 						! siteTitle &&
-						NO__( "Let's set up your website – it takes only a moment." ) }
+						__( "Let's set up your website – it takes only a moment." ) }
 				</h2>
 				<StepperWizard
 					stepComponents={ [ VerticalSelect, ( siteVertical || siteTitle ) && SiteTitle ] }
@@ -39,7 +39,7 @@ const AcquireIntent: FunctionComponent = () => {
 							isLink
 						>
 							{ /* @TODO: add transitions and correct action */ }
-							{ siteTitle ? NO__( 'Continue' ) : NO__( "Don't know yet" ) } →
+							{ siteTitle ? __( 'Continue' ) : __( "Don't know yet" ) } →
 						</Link>
 					</div>
 				) }

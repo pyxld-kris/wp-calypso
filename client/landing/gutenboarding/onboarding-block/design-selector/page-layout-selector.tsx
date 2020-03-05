@@ -20,7 +20,7 @@ interface Props {
 }
 
 const PageLayoutSelector: FunctionComponent< Props > = ( { templates } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	const { pageLayouts } = useSelect( select => select( ONBOARD_STORE ).getState() );
 	const { togglePageLayout } = useDispatch( ONBOARD_STORE );
 
@@ -31,7 +31,7 @@ const PageLayoutSelector: FunctionComponent< Props > = ( { templates } ) => {
 					/* ID for aria-labelledby */ id="page-layout-selector__title"
 					className="page-layout-selector__title"
 				>
-					{ NO__( "Select the pages you'd like to include:" ) }
+					{ __( "Select the pages you'd like to include:" ) }
 				</h1>
 				<div className="page-layout-selector__grid">
 					{ templates.map( template => (

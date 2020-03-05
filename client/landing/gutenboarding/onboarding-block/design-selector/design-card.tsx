@@ -28,7 +28,7 @@ const DesignCard: FunctionComponent< Props > = ( {
 	style,
 	tabIndex = 0,
 } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 	return (
 		<Card
 			as="button"
@@ -50,7 +50,7 @@ const DesignCard: FunctionComponent< Props > = ( {
 				/>
 				<span className="design-selector__option-overlay">
 					<span className="design-selector__option-overlay-text">
-						{ NO__( 'Select this design' ) }
+						{ __( 'Select this design' ) }
 					</span>
 				</span>
 			</CardMedia>

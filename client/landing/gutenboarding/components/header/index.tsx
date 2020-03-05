@@ -29,7 +29,7 @@ interface Props {
 }
 
 const Header: FunctionComponent< Props > = ( { prev } ) => {
-	const { __: NO__ } = useI18n();
+	const { __ } = useI18n();
 
 	const currentUser = useSelect( select => select( USER_STORE ).getCurrentUser() );
 	const newUser = useSelect( select => select( USER_STORE ).getNewUser() );
@@ -84,7 +84,7 @@ const Header: FunctionComponent< Props > = ( { prev } ) => {
 	/* eslint-disable wpcalypso/jsx-classname-namespace */
 	const siteTitleElement = (
 		<span className="gutenboarding__site-title">
-			{ siteTitle ? siteTitle : NO__( 'Create your site' ) }
+			{ siteTitle ? siteTitle : __( 'Create your site' ) }
 		</span>
 	);
 
@@ -140,14 +140,14 @@ const Header: FunctionComponent< Props > = ( { prev } ) => {
 		<div
 			className="gutenboarding__header"
 			role="region"
-			aria-label={ NO__( 'Top bar' ) }
+			aria-label={ __( 'Top bar' ) }
 			tabIndex={ -1 }
 		>
 			<div className="gutenboarding__header-section">
 				<div className="gutenboarding__header-group">
 					<Link className="gutenboarding__header-back-button" to={ prev }>
 						<Icon icon="arrow-left-alt" />
-						{ NO__( 'Back' ) }
+						{ __( 'Back' ) }
 					</Link>
 				</div>
 				<div className="gutenboarding__header-group">
@@ -178,7 +178,7 @@ const Header: FunctionComponent< Props > = ( { prev } ) => {
 								currentUser ? handleCreateSite( currentUser.username ) : handleSignup()
 							}
 						>
-							{ NO__( 'Create my site' ) }
+							{ __( 'Create my site' ) }
 						</Button>
 					) }
 				</div>
