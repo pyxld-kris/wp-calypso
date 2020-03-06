@@ -43,17 +43,18 @@ const router = () => {
 			makeLayout,
 			clientRender
 		);
-		page(
-			'/backups/:site/download',
-			siteSelection,
-			setupSidebar,
-			backupDownload,
-			makeLayout,
-			clientRender
-		);
+		// todo: route somewhere else? ignore? backup picker?
+		// page(
+		// 	'/backups/:site/download',
+		// 	siteSelection,
+		// 	setupSidebar,
+		// 	backupDownload,
+		// 	makeLayout,
+		// 	clientRender
+		// );
 
 		page(
-			'/backups/:site/download/:downloadId',
+			'/backups/:site/download/:rewindId',
 			siteSelection,
 			setupSidebar,
 			backupDownload,
