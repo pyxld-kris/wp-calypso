@@ -9,6 +9,7 @@ import { useDebounce } from 'use-debounce';
 import classnames from 'classnames';
 import { DomainSuggestions } from '@automattic/data-stores';
 import { useHistory } from 'react-router-dom';
+import { reloadProxy } from 'wpcom-proxy-request';
 
 /**
  * Internal dependencies
@@ -20,6 +21,7 @@ import './style.scss';
 import DomainPickerButton from '../domain-picker-button';
 import { selectorDebounce } from '../../constants';
 import SignupForm from '../../components/signup-form';
+import LoginForm from '../../components/login-form';
 
 const DOMAIN_SUGGESTIONS_STORE = DomainSuggestions.register();
 
@@ -62,6 +64,7 @@ const Header: FunctionComponent = () => {
 	}, [ siteTitle, setDomain ] );
 
 	const [ showSignupDialog, setShowSignupDialog ] = useState( false );
+	const [ showLoginDialog, setShowLoginDialog ] = useState( false );
 
 	const {
 		location: { pathname },
@@ -72,7 +75,8 @@ const Header: FunctionComponent = () => {
 		// this header isn't unmounted on route changes so we need to
 		// explicitly hide the dialog.
 		setShowSignupDialog( false );
-	}, [ pathname, setShowSignupDialog ] );
+		setShowLoginDialog( false );
+	}, [ pathname, setShowSignupDialog, setShowLoginDialog ] );
 
 	const currentDomain = domain ?? freeDomainSuggestion;
 
@@ -95,7 +99,13 @@ const Header: FunctionComponent = () => {
 
 	const handleCreateSite = useCallback(
 		( username: string, bearerToken?: string ) => {
+			// If bearer token wasn't passed, reload the proxy
+			// so that the user's logged in authentication cookie will be used
+			if ( ! bearerToken ) {
+				reloadProxy();
+			}
 			const siteUrl = currentDomain?.domain_name || siteTitle || username;
+
 			createSite( {
 				blog_name: siteUrl?.split( '.wordpress' )[ 0 ],
 				blog_title: siteTitle,
@@ -116,9 +126,23 @@ const Header: FunctionComponent = () => {
 
 	const handleSignup = () => {
 		setShowSignupDialog( true );
+		setShowLoginDialog( false );
+	};
+
+	const handleLogin = () => {
+		setShowSignupDialog( false );
+		setShowLoginDialog( true );
+	};
+
+	const closeAuthDialog = () => {
+		setShowSignupDialog( false );
+		setShowLoginDialog( false );
 	};
 
 	useEffect( () => {
+		// make login a part of this
+		// we need to add something to determine if the user exists I think, and then just redirect.
+		// the user was logged in with cookies so it's fine
 		if ( newUser && newUser.bearerToken && newUser.username ) {
 			handleCreateSite( newUser.username, newUser.bearerToken );
 		}
@@ -175,7 +199,16 @@ const Header: FunctionComponent = () => {
 					) }
 				</div>
 			</div>
-			{ showSignupDialog && <SignupForm onRequestClose={ () => setShowSignupDialog( false ) } /> }
+			{ showSignupDialog && (
+				<SignupForm onRequestClose={ () => closeAuthDialog() } onOpenLogin={ handleLogin } />
+			) }
+			{ showLoginDialog && (
+				<LoginForm
+					onRequestClose={ () => closeAuthDialog() }
+					onOpenSignup={ handleSignup }
+					onLogin={ handleCreateSite }
+				/>
+			) }
 		</div>
 	);
 	/* eslint-enable wpcalypso/jsx-classname-namespace */
