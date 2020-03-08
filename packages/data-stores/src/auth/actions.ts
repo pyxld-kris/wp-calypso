@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { select } from '@wordpress/data-controls';
+
+/**
  * Internal dependencies
  */
 import {
@@ -7,6 +12,8 @@ import {
 	WpLoginSuccessResponse,
 	WpLoginErrorResponse,
 } from './types';
+import { STORE_KEY } from './constants';
+import { wpcomRequest } from '../wpcom-request-controls';
 
 export const reset = () =>
 	( {
@@ -34,21 +41,15 @@ export const clearErrors = () =>
 		type: 'CLEAR_ERRORS',
 	} as const );
 
-export interface FetchAuthOptionsAction {
-	type: 'FETCH_AUTH_OPTIONS';
-	usernameOrEmail: string;
-}
-
-const fetchAuthOptions = ( usernameOrEmail: string ): FetchAuthOptionsAction => ( {
-	type: 'FETCH_AUTH_OPTIONS',
-	usernameOrEmail,
-} );
-
 export function* submitUsernameOrEmail( usernameOrEmail: string ) {
 	yield clearErrors();
+	const escaped = encodeURIComponent( usernameOrEmail );
 
 	try {
-		const authOptions = yield fetchAuthOptions( usernameOrEmail );
+		const authOptions = yield wpcomRequest( {
+			path: `/users/${ escaped }/auth-options`,
+			apiVersion: '1.1',
+		} );
 
 		yield receiveAuthOptions( authOptions, usernameOrEmail );
 	} catch ( err ) {
@@ -85,7 +86,7 @@ const fetchWpLogin = ( action: WpLoginAction, params: object ): FetchWpLoginActi
 
 export function* submitPassword( password: string ) {
 	yield clearErrors();
-	const username = yield { type: 'SELECT_USERNAME_OR_EMAIL' };
+	const username = yield select( STORE_KEY, 'getUsernameOrEmail' );
 
 	try {
 		const loginResponse = yield fetchWpLogin( 'login-endpoint', { username, password } );

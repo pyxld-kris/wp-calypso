@@ -1,33 +1,23 @@
 /**
  * External dependencies
  */
-import { createRegistryControl } from '@wordpress/data';
 import { stringify } from 'qs';
-import wpcomRequest, { requestAllBlogsAccess } from 'wpcom-proxy-request';
+import { requestAllBlogsAccess } from 'wpcom-proxy-request';
 
 /**
  * Internal dependencies
  */
-import { FetchAuthOptionsAction, FetchWpLoginAction } from './actions';
-import { STORE_KEY } from './constants';
+import { FetchWpLoginAction } from './actions';
 import { WpcomClientCredentials } from '../shared-types';
+import { createControls as createCommonControls } from '../wpcom-request-controls';
 
 export function createControls( clientCreds: WpcomClientCredentials ) {
 	requestAllBlogsAccess().catch( () => {
 		throw new Error( 'Could not get all blog access.' );
 	} );
-	return {
-		SELECT_USERNAME_OR_EMAIL: createRegistryControl( registry => () => {
-			return registry.select( STORE_KEY ).getUsernameOrEmail();
-		} ),
-		FETCH_AUTH_OPTIONS: async ( { usernameOrEmail }: FetchAuthOptionsAction ) => {
-			const escaped = encodeURIComponent( usernameOrEmail );
 
-			return await wpcomRequest( {
-				path: `/users/${ escaped }/auth-options`,
-				apiVersion: '1.1',
-			} );
-		},
+	return {
+		...createCommonControls( clientCreds ),
 		FETCH_WP_LOGIN: async ( { action, params }: FetchWpLoginAction ) => {
 			const response = await fetch(
 				// TODO Wrap this in `localizeUrl` from lib/i18n-utils
