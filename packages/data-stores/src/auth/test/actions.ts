@@ -9,8 +9,13 @@
 /**
  * Internal dependencies
  */
-import { submitPassword, submitUsernameOrEmail } from '../actions';
+import { createActions } from '../actions';
 import { STORE_KEY } from '../constants';
+
+const client_id = 'secret id';
+const client_secret = 'secret secret';
+
+const { submitPassword, submitUsernameOrEmail } = createActions( { client_id, client_secret } );
 
 describe( 'submitUsernameOrEmail', () => {
 	it( 'requests auth options for a username', () => {
@@ -71,7 +76,7 @@ describe( 'submitPassword', () => {
 		expect( generator.next( username ).value ).toEqual( {
 			type: 'FETCH_WP_LOGIN',
 			action: 'login-endpoint',
-			params: { username, password },
+			params: { username, password, client_id, client_secret },
 		} );
 
 		const errorMessage = 'Error!!1';

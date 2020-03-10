@@ -2,45 +2,38 @@
  * External dependencies
  */
 import { stringify } from 'qs';
-import { requestAllBlogsAccess } from 'wpcom-proxy-request';
 
-/**
- * Internal dependencies
- */
-import { FetchWpLoginAction } from './actions';
-import { WpcomClientCredentials } from '../shared-types';
-import { createControls as createCommonControls } from '../wpcom-request-controls';
+type WpLoginAction = 'login-endpoint' | 'two-step-authentication-endpoint';
 
-export function createControls( clientCreds: WpcomClientCredentials ) {
-	requestAllBlogsAccess().catch( () => {
-		throw new Error( 'Could not get all blog access.' );
-	} );
+export const fetchWpLogin = ( action: WpLoginAction, params: object ) =>
+	( {
+		type: 'FETCH_WP_LOGIN',
+		action,
+		params,
+	} as const );
 
-	return {
-		...createCommonControls( clientCreds ),
-		FETCH_WP_LOGIN: async ( { action, params }: FetchWpLoginAction ) => {
-			const response = await fetch(
-				// TODO Wrap this in `localizeUrl` from lib/i18n-utils
-				'https://wordpress.com/wp-login.php?action=' + encodeURIComponent( action ),
-				{
-					method: 'POST',
-					credentials: 'include',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/x-www-form-urlencoded',
-					},
-					body: stringify( {
-						remember_me: true,
-						...clientCreds,
-						...params,
-					} ),
-				}
-			);
+export const controls = {
+	FETCH_WP_LOGIN: async ( { action, params }: ReturnType< typeof fetchWpLogin > ) => {
+		const response = await fetch(
+			// TODO Wrap this in `localizeUrl` from lib/i18n-utils
+			'https://wordpress.com/wp-login.php?action=' + encodeURIComponent( action ),
+			{
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: stringify( {
+					remember_me: true,
+					...params,
+				} ),
+			}
+		);
 
-			return {
-				ok: response.ok,
-				body: await response.json(),
-			};
-		},
-	};
-}
+		return {
+			ok: response.ok,
+			body: await response.json(),
+		};
+	},
+};
