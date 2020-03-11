@@ -167,6 +167,19 @@ export function removeItemFromResponseCart(
 	cart: ResponseCart,
 	uuidToRemove: string
 ): ResponseCart {
+	const itemToRemove = cart.products.find( product => product.uuid === uuidToRemove );
+	if ( ! itemToRemove ) {
+		return cart;
+	}
+	if ( itemToRemove.extra?.domain_to_bundle ) {
+		// If a plan with a bundled domain is removed from the cart, the shopping
+		// cart endpoint will add a plan back to the cart, which is bad UX.
+		// Therefore we will clear the cart if such a plan is removed instead.
+		return {
+			...cart,
+			products: [],
+		};
+	}
 	return {
 		...cart,
 		products: cart.products.filter( product => {
