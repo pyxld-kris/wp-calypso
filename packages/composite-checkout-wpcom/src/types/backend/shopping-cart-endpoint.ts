@@ -117,12 +117,16 @@ export interface ResponseCartProduct {
 	is_bundled: boolean;
 	meta: string;
 	volume: number;
-	extra: object;
+	extra: ResponseCartProductExtra;
 	uuid: string;
 	cost: number;
 	price: number;
 	product_type: string;
 	included_domain_purchase_amount: number;
+}
+
+interface ResponseCartProductExtra {
+	domain_to_bundle?: string;
 }
 
 export const prepareRequestCartProduct: ( ResponseCartProduct ) => RequestCartProduct = ( {
