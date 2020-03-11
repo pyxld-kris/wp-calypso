@@ -8,9 +8,7 @@ import React, { Component, Fragment } from 'react';
  */
 import Gridicon from 'components/gridicon';
 import Button from 'components/forms/form-button';
-import { Card } from '@automattic/components';
-import ActivityActor from 'my-sites/activity/activity-log-item/activity-actor';
-import ActivityDescription from 'my-sites/activity/activity-log-item/activity-description';
+import ActivityCard from '../../components/activity-card';
 
 /**
  * Style dependencies
@@ -19,43 +17,24 @@ import './style.scss';
 
 class BackupDelta extends Component {
 	renderRealtime() {
-		const { allowRestore } = this.props;
+		const { allowRestore, moment } = this.props;
 
 		const realtimeEvents = this.props.realtimeEvents.filter( event => event.activityIsRewindable );
 
-		const events = realtimeEvents.map( event => (
-			<Fragment key={ event.activityId }>
-				<div className="backup-delta__time">
-					<Gridicon icon="cloud-upload" />
-					{ this.props.moment( event.activityDate ).format( 'LT' ) }
-				</div>
-				<Card>
-					<ActivityActor
-						{ ...{
-							actorAvatarUrl: event.actorAvatarUrl,
-							actorName: event.actorName,
-							actorRole: event.actorRole,
-							actorType: event.actorType,
-						} }
-					/>
-					<ActivityDescription activity={ event } rewindIsActive={ allowRestore } />
-					<div>{ event.activityTitle }</div>
-					<div>
-						<Button compact borderless>
-							See content <Gridicon icon="chevron-down" />
-						</Button>
-						<Button compact borderless>
-							Actions <Gridicon icon="add" />
-						</Button>
-					</div>
-				</Card>
-			</Fragment>
+		const cards = realtimeEvents.map( activity => (
+			<ActivityCard
+				{ ...{
+					moment,
+					activity,
+					allowRestore,
+				} }
+			/>
 		) );
 
 		return (
 			<div className="backup-delta__realtime">
 				<div>More backups from today</div>
-				{ events.length ? events : <div>you have no more backups for this day</div> }
+				{ cards.length ? cards : <div>you have no more backups for this day</div> }
 			</div>
 		);
 	}
@@ -113,9 +92,11 @@ class BackupDelta extends Component {
 	}
 
 	render() {
+		const { hasRealtimeBackups } = this.props;
+
 		return (
 			<div className="backup-delta">
-				{ this.props.hasRealtimeBackups ? this.renderRealtime() : this.renderDaily() }
+				{ hasRealtimeBackups ? this.renderRealtime() : this.renderDaily() }
 			</div>
 		);
 	}
